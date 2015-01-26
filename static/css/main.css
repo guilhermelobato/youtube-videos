@@ -1,0 +1,68 @@
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 !important;
+}
+
+.jumbotron iframe, .jumbotron object{
+	max-width: 700px;
+	width: 100%;
+	height: 400px;
+
+}
+
+#listaVideos{
+	margin: 0;
+	padding: 0
+}
+
+#listaVideos li{
+	list-style-type: none;
+	width: 50%;
+	float: left;
+	margin: 10px 0 0 0;
+	height: 90px;
+}
+
+#listaVideos li a{
+	font-size: 15px;
+	padding: 0 5px 0 0;
+	float: left;
+	text-align: left;
+	height: 90px;
+	width: 100%;
+	text-decoration: none;
+	color: #777;
+	
+}
+
+#carregarMaisVideos{
+	font-weight: bold;
+	margin: 35px 0 0 0;
+}
+
+#carregarMaisVideos span{
+	text-align: center;
+	padding: 7px;
+	border-radius: 6px;
+	background: #F2f2f2;
+	margin: 0;
+}
+
+#listaVideos li a img{
+	float: left;
+	margin-right: 10px;
+}
+
+.ident4{
+	padding: 0 1em !important;
+}
+.ident5{
+	padding: 0 2em !important
+}
+.ident6{
+	padding: 0 3em !important
+}
+
+
+

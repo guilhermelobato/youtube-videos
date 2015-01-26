@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>Como carregar playlist do Youtube no seu site</title>
+	<link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="static/bootstrap/css/jumbotron-narrow.css">
+	<link rel="stylesheet" href="static/css/main.css">
+
+	<!-- Google+ -->
+	<meta itemprop="name" content="Carregar videos do Youtube">
+	<meta itemprop="description" content="Como carregar playlist do youtube no seu site">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="website">
+	<meta name="twitter:site" content="@guilobat">
+	<meta name="twitter:title" content="Carregar videos do Youtube">
+	<meta name="twitter:description" content="Como carregar playlist do youtube no seu site">
+	<meta name="twitter:creator" content="@guilobat">
+
+
+	<!-- Facebook Tags -->
+	<meta property="og:title" content="Carregar videos do Youtube" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://www.example.com/" />
+	<meta property="og:description" content="Como carregar playlist do youtube no seu site" />
+	<meta property="og:site_name" content="www.guilhermelobato.com" />
+
+</head>
+<body>
+	
+	<div class="container">
+		<div class="header">
+			<h3 class="text-muted">Como carregar playlist do Youtube no seu site</h3>
+		</div>
+
+		<div class="jumbotron">
+			<div id="videoPrincipal">
+				<iframe id="videoPrincipalPlayer"  src="" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div id="tituloVideo"></div>
+		</div>
+
+		<div class="row marketing">
+			<ul id="listaVideos">
+				<li class="btn_carregar_mais">
+					<a id="carregarMaisVideos" href="#">
+						<span>
+							Carregar mais vídeos
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<hr>
+		
+		<h3>Uso</h3>
+		<p>Incluir JS</p>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				// code.jquery.com/jquery-1.11.2.min.js
+			</div>
+		</div>
+
+		<h3>Função para carregar playlist Youtube</h3>
+		<p>Incluir JS</p>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<code>
+					<div class="container">
+						<div class="line">$(document).ready(function(){</div>
+							<div class="line ident4">
+								<div class="line">var objectUrlInicial;</div>
+								<div class="line">var objectTituloInicial;</div>
+								<div class="line">var paginaAtual = 1;</div>
+								<div class="line">var maximoResultado = 7;</div>
+								<br>
+								<div class="line">$('#carregarMaisVideos').click(function(e) {</div>
+									<div class="line ident4">e.preventDefault();</div>
+									<div class="line ident4">carregarVideos();</div>
+								<div class="line">});</div>
+								<br>
+								<div class="line">//Carregar Vídeo Youtube</div>
+								<br>
+								<div class="line">carregarVideos();</div>
+								<div class="line ident4">
+									function carregarVideos(){
+										<div class="line ident4">
+											<div class="line">
+												$.getJSON('http://gdata.youtube.com/feeds/api/videos?alt=json-in-script&orderby=published&&start-index='+paginaAtual+'&max-results='+maximoResultado+'&author={ID-DO-USUÁRIO-YOUTUBE}&callback=?', function(data){
+											</div>
+											<br>
+												<div class="line">if('entry' in data.feed){
+													<div class="line ident5">
+													$.each(data.feed.entry, function(i,item){
+														<div class="line ident5">var principal = $('< li>< /li>');</div>
+														<div class="line ident5">var linkVideo = $('<a></a>');</div>
+														<div class="line ident5">var thumb = $('< img src="'+item.media$group.media$thumbnail[1].url+'" alt="Assistir ao vídeo" />');</div>
+														<br>
+														<div class="line">
+															if(i == 0){
+																<div class="line ident4">objectTituloInicial = item.title.$t;</div>
+																<div class="line ident4">objectUrlInicial = item.media$group.media$content[0].url;</div>
+															}
+														</div>
+														<br>
+														<div class="line">$(linkVideo).attr('href', 'videos?video='+item.media$group.media$content[0].url);
+														tempo_video = Math.round(item.media$group.yt$duration.seconds/60);</div>
+														<br>
+														<div class="line">$(linkVideo).append(thumb);</div>
+														<div class="line">$(linkVideo).append(item.title.$t);</div>
+														<div class="line">$(principal).append(linkVideo);</div>
+														<div class="line">$('#listaVideos').append(principal);</div>
+														<div class="line">$('#listaVideos .btn_carregar_mais').appendTo('#listaVideos');</div>
+														<br>
+														<div class="line">
+															$(principal).find('a').click(function(event){
+																<div class="ident5">
+																	<div class="line">event.preventDefault();</div>
+																	<div class="line">$('#videoPrincipalPlayer').attr('src', item.media$group.media$content[0].url);</div>
+																	<div class="line">$('#videoPrincipal #tituloVideo').text(item.title.$t);</div>
+																	<div class="line">$('#videoPrincipal #tituloVideo').hide();</div>
+																	<div class="line">$('#videoPrincipal #tituloVideo').slideDown();</div>
+																	<div class="line">$(document).scrollTop(135);</div>
+																</div>
+															});
+														</div>
+
+														</div>
+													});</div>
+												<div class="line">} else {
+													<div class="line ident5">
+														$('.btn_carregar_mais').hide();
+													</div>
+												}</div>
+
+												<div class="line">if(paginaAtual == 1){
+													<div class="line ident5">$('#videoPrincipalPlayer').attr('src', objectUrlInicial);</div>
+													<div class="line ident5">$('#videoPrincipal #tituloVideo').text(objectTituloInicial);</div>
+												}</div>
+												paginaAtual += 7;
+												maximoResultado = 6;
+											});
+										</div>
+									}
+								</div>
+							</div>
+						<div class="line">});</div>
+					</div>
+				</code>	
+			</div>
+		</div>
+
+		<h3>Vídeo principal</h3>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<code>
+					<div class="line">&lt;div id="videoPrincipal"&gt; </div>
+						<div class="line ident4">&lt;iframe id="videoPrincipalPlayer"  src="" frameborder="0"
+						allowfullscreen&gt;&lt;/iframe&gt;</div>
+					<div class="line">&lt;/div&gt; </div>
+				</code>
+			</div>
+		</div>
+		
+		<h3>Titulo principal</h3>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<code>
+					<div class="line">&lt;div id="tituloVideo"&gt;&lt;/div&gt;</div>
+				</code>
+			</div>
+		</div>
+
+		<h3>Listagem de vídeos da playlist</h3>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<code>
+					<div class="line">
+						&lt;ul id="listaVideos"&gt;
+					</div>
+						<div class="line ident4">
+							&lt;li class="btn_carregar_mais"&gt;
+						</div>
+						<div class="line ident5">
+							<div class="line ident4">
+								&lt;a id="carregarMaisVideos" href="#"&gt;
+							</div>
+							<div class="line ident5">
+								Carregar &lt;img src="static/img/videos/mais.png" alt="mais" /&gt;
+							</div>
+							<div class="line ident4">
+								&lt;/a&gt;
+							</div>
+						</div>
+						<div class="line ident4">
+							&lt;/li&gt;
+						</div>
+					<div class="line">
+						&lt;/ul&gt;
+					</div>
+				</code>
+			</div>
+		</div>
+		
+
+		<footer class="footer">
+			<p>&copy; Company 2014</p>
+		</footer>
+	</div> <!-- /container -->
+
+
+	<script src="static/js/jquery-1.11.2.min.js"></script>
+	<script src="static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="static/js/videos.js"></script>
+</body>
+</html>
