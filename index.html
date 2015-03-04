@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Carregando playlist de videos do youtube : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Carregando playlist de videos do youtube</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/guilhermelobato/youtube-videos">View on GitHub</a>
+
+          <h1 id="project_title">Carregando playlist de videos do youtube</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/guilhermelobato/youtube-videos/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/guilhermelobato/youtube-videos/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="uso" class="anchor" href="#uso" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uso</h3>
+
+<p>Incluir JS</p>
+
+<pre><code>code.jquery.com/jquery-1.11.2.min.js
+</code></pre>
+
+<h3>
+<a id="função-para-carregar-playlist-youtube" class="anchor" href="#fun%C3%A7%C3%A3o-para-carregar-playlist-youtube" aria-hidden="true"><span class="octicon octicon-link"></span></a>Função para carregar playlist Youtube</h3>
+
+<p>Incluir JS</p>
+
+<pre><code>$(document).ready(function(){
+  var objectUrlInicial;
+  var objectTituloInicial;
+  var paginaAtual = 1;
+  var maximoResultado = 7;
+
+$('#carregarMaisVideos').click(function(e) {
+  e.preventDefault();
+  carregarVideos();
+});
+
+//Carregar Vídeo Youtube
+
+carregarVideos();
+function carregarVideos(){
+$.getJSON('http://gdata.youtube.com/feeds/api/videos?alt=json-in-script&amp;orderby=published&amp;&amp;start-index
+='+paginaAtual+'&amp;max-results='+maximoResultado+'&amp;author={ID-DO-USUÁRIO-YOUTUBE}&amp;callback=?', function(data){
+
+if('entry' in data.feed){
+  $.each(data.feed.entry, function(i,item){
+    var principal = $('&lt; li&gt;&lt; /li&gt;');
+    var linkVideo = $('');
+    var thumb = $('&lt; img src="'+item.media$group.media$thumbnail[1].url+'" alt="Assistir ao vídeo" /&gt;');
+
+  if(i == 0){
+    objectTituloInicial = item.title.$t;
+    objectUrlInicial = item.media$group.media$content[0].url;
+  }
+
+  $(linkVideo).attr('href', 'videos?video='+item.media$group.media$content[0].url); tempo_video =    
+  Math.round(item.media$group.yt$duration.seconds/60);
+
+  $(linkVideo).append(thumb);
+  $(linkVideo).append(item.title.$t);
+  $(principal).append(linkVideo);
+  $('#listaVideos').append(principal);
+  $('#listaVideos .btn_carregar_mais').appendTo('#listaVideos');
+
+  $(principal).find('a').click(function(event){
+    event.preventDefault();
+    $('#videoPrincipalPlayer').attr('src', item.media$group.media$content[0].url);
+    $('#videoPrincipal #tituloVideo').text(item.title.$t);
+    $('#videoPrincipal #tituloVideo').hide();
+    $('#videoPrincipal #tituloVideo').slideDown();
+    $(document).scrollTop(135);
+  });
+});
+
+} else {
+   $('.btn_carregar_mais').hide();
+}
+
+if(paginaAtual == 1){
+  $('#videoPrincipalPlayer').attr('src', objectUrlInicial);
+  $('#videoPrincipal #tituloVideo').text(objectTituloInicial);
+}
+  paginaAtual += 7; maximoResultado = 6; });
+}
+
+});
+
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Carregando playlist de videos do youtube maintained by <a href="https://github.com/guilhermelobato">guilhermelobato</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
